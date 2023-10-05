@@ -1,0 +1,100 @@
+# securityContext -- Pod Security Context.
+# @default -- See Value
+securityContext:
+  fsGroup: 65534 
+  fsGroupChangePolicy: "OnRootMismatch"
+  supplementalGroups:
+     - 65534
+
+homarr:
+  # -- (int) Number of replicas.
+  replicas: 1
+  # -- Pod annotations config.
+  annotations: {}
+  # -- Homarr image config.
+  # @default -- See Value
+  image:
+    # -- Image repo.
+    repository: ghcr.io/ajnart/homarr
+    # -- Image tag. If not set the value will be chart appVersion value.
+    tag: 
+    # -- Image pull secrets.
+    imagePullSecrets: null
+    # -- Image pull policy.
+    imagePullPolicy: "IfNotPresent"
+    # -- (int) Container port. It must be higher than 1042. 
+    port: 7575
+  
+  # -- Extra environment variables for homarr.
+  extraEnv:
+    # @ignore
+    - name: TZ
+      value: Europe/Stockholm
+
+  # -- The resource settings for homarr pod.
+  resources: {}
+  # -- nodeSelector config.
+  nodeSelector: {}
+  # -- tolerations config.
+  tolerations: []
+  # -- affinity config.
+  affinity: {}
+
+  # -- Container Security Context.
+  # @default -- See Value
+  securityContext: 
+    runAsNonRoot: true
+    runAsUser: 65534
+    runAsGroup: 65534
+    allowPrivilegeEscalation: false
+    privileged: false
+    seccompProfile:
+      type: RuntimeDefault
+    capabilities:
+      drop:
+        - ALL
+  
+  # -- Configs data persistence config.
+  # @default -- See Value
+  persistence:
+    # -- If enabled create pvc volume to the pod. Otherwise attach emptyDir.
+    enabled: false
+    # -- PVC access mode.
+    accessMode: ReadWriteMany
+    # -- PVC size.
+    size: 1Gi
+    # -- PVC storage class.
+    storageClass: ''
+
+# -- Homarr service config.
+# @default -- See Value
+service:
+  # -- If enabled create k8s service for homarr.
+  enabled: true
+  # -- Service annotations.
+  annotations: {}
+  # -- Service type.
+  type: ClusterIP
+  # -- Service port.
+  port: 80
+  # -- Service node port (Used if service type is NodePort).
+  nodePort:
+
+# -- Homarr ingress config.
+# @default -- See Value
+ingress:
+  # -- If enabled create k8s ingress for homarr.
+  enabled: false
+  # -- Ingress annotations.
+  annotations: {}
+  # -- Ingress class name.
+  className: 
+  # -- Ingress host.
+  host: homarr.home.local
+  # -- Ingress path.
+  path: /
+  # -- Ingress path type.
+  pathType: Prefix
+  # -- Ingress tls config.
+  tls: {}
+   

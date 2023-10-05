@@ -1,0 +1,81 @@
+{{ define "extra.usage" -}}
+## 🚀 Usage
+1. Add my Helm repository
+```
+helm repo add deler https://helm.deler.dev
+```
+2. update information of available charts
+```
+helm repo update
+```
+{{- end }}
+
+{{ define "extra.badges" }}
+{{ template "chart.versionBadge" . }}{{ template "chart.typeBadge" . }}{{ template "chart.appVersionBadge" . }}
+{{ end }}
+
+{{ define "chart.valuesHeader" }}## 📄 Values{{ end }}
+
+
+{{ define "chart.valueDefaultColumnRender" }}
+{{- $defaultValue := (default .Default .AutoDefault)  -}}
+{{- $type := .Type }}
+{{- if (and (hasPrefix "`" $defaultValue) (hasSuffix "`" $defaultValue) (eq $type "object")) -}}
+{{- $defaultValue = (printf "<pre>%s</pre>" ((toString (toPrettyJson (fromJson (trimAll "`" (default .Default .AutoDefault) ) ) ) ) ) |  replace "\n" "<br />") -}}
+{{- end -}}
+{{- $defaultValue -}}
+{{- end -}}
+
+{{ define "chart.valueDefaultColumnRenderSeeValue" }}
+{{- $defaultValue := (default .Default .AutoDefault)  -}}
+{{- if (eq $defaultValue "See Value") -}}
+{{- $defaultValue = (printf "See [values.yaml](https://github.com/deler-aziz/helm-charts/blob/main/charts/homarr/values.yaml#L%d)" .LineNumber) -}}
+{{- end -}}
+{{- $defaultValue -}}
+{{- end -}}
+
+{{- define "chart.valueKey" -}}
+[{{- .Key -}}]({{- printf "./values.yaml#L%d" .LineNumber -}})
+{{- end -}}
+
+{{ define "chart.valuesTable" }}
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+  {{- range .Values }}
+  |  {{- template "chart.valueKey" . -}} | {{ .Type }} |  {{- template "chart.valueDefaultColumnRenderSeeValue" . -}}  | {{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }} |
+  {{- end }}
+{{ end }}
+
+{{- define "chart.valueKeyHtml" -}}
+<td id="{{ .Key | replace "." "--" }}"><a href="https://github.com/deler-aziz/helm-charts/blob/main/charts/homarr/values.yaml#L{{ .LineNumber }}">{{ .Key }}</a></td>
+{{- end -}}
+
+{{ define "chart.valueDefaultColumnRenderHtml" }}
+{{- $defaultValue := (default .Default .AutoDefault)  -}}
+{{- $type := .Type }}
+{{- if (and (hasPrefix "`" $defaultValue) (hasSuffix "`" $defaultValue) ) -}}
+{{- $defaultValue = (printf "<pre lang=\"json\"> %s </pre>" (toPrettyJson (fromJson (trimAll "`" (default .Default .AutoDefault) ) ) ) ) -}}
+{{- end -}}
+{{- $defaultValue -}}
+{{- end -}}
+
+{{ define "chart.valuesTableHtml" }}
+<table>
+	<thead>
+		<th>Key</th>
+		<th>Type</th>
+		<th>Default</th>
+		<th>Description</th>
+	</thead>
+	<tbody>
+	{{- range .Values }}
+		<tr>
+			{{- template "chart.valueKeyHtml" . -}}
+			<td>{{ .Type }}</td>
+			<td>{{ template "chart.valueDefaultColumnRenderHtml" . }}</td>
+			<td>{{ if .Description }}{{ .Description }}{{ else }}{{ .AutoDescription }}{{ end }}</td>
+		</tr>
+	{{- end }}
+	</tbody>
+</table>
+{{ end }}

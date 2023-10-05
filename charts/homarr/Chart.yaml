@@ -1,0 +1,29 @@
+apiVersion: v2
+name: homarr
+version: 1.0.0
+appVersion: "0.13.4"
+kubeVersion: ">=1.19.0-0"
+description: Homarr helm chart
+home: https://github.com/deler-aziz/helm-charts
+icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/homarr.png
+keywords:
+  - homarr
+  - dashboard
+sources:
+  - https://github.com/deler-aziz/helm-charts
+  - https://github.com/ajnart/homarr
+annotations:
+  artifacthub.io/prerelease: "false"
+  artifacthub.io/license: MIT
+  artifacthub.io/links: |
+    - name: Documentation
+      url: https://homarr.dev/docs
+    - name: ajnart/homarr
+      url: https://github.com/ajnart/homarr
+    - name: Chart
+      url: https://github.com/deler-aziz/helm-charts
+maintainers:
+  - email: info@deler.dev
+    name: deler-aziz
+    url: https://github.com/deler-aziz
+type: application

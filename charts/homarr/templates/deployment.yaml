@@ -1,0 +1,82 @@
+{{ if .Values.homarr.image.port }}
+{{ if (le (.Values.homarr.image.port | int) 1024 )}}
+{{ fail "Image port should be greater than 1024" }}
+{{ end }}
+{{ end }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "homarr.fullname" . }}
+  labels:
+    app.kubernetes.io/component	: homarr
+    {{- include "homarr.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.homarr.replicas }}
+  selector:
+    matchLabels:
+      {{- include "homarr.labels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "homarr.labels" . | nindent 8 }}
+      annotations: 
+        {{- if .Values.homarr.annotations }}
+        {{- toYaml .Values.homarr.annotations | nindent 8 }}
+        {{- end }}
+    spec:
+      imagePullSecrets:
+        {{- toYaml .Values.homarr.image.imagePullSecrets | nindent 8 }}
+      {{- with .Values.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      
+      containers:
+        - name: {{ include "homarr.fullname" . }}
+          image: {{ include "homarr.image-name" . }}
+          imagePullPolicy: {{ .Values.homarr.image.imagePullPolicy }}
+          env:
+            - name: PORT
+              value: {{ if .Values.homarr.image.port }}{{ .Values.homarr.image.port | quote }}{{ else }}{{ "7575" }}{{ end }}
+            {{- range .Values.homarr.extraEnv }}
+            - name: {{ .name | quote }}
+              value: {{ .value | quote }}
+            {{- end }}
+          ports:
+            - name: http
+              containerPort: {{ if .Values.homarr.image.port }}{{ .Values.homarr.image.port | int }}{{ else }}{{ 7575 }}{{ end }}
+              protocol: TCP
+  
+          volumeMounts:
+            - name: config
+              mountPath: /app/data/configs
+  
+          {{- with .Values.homarr.securityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+           {{- end }}
+          resources:
+            {{- toYaml .Values.homarr.resources | nindent 12 }}
+     
+      volumes:
+        - name: config
+          {{- if .Values.homarr.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ include "homarr.fullname" . }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        
+      {{- with .Values.homarr.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    {{- with .Values.homarr.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.homarr.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    

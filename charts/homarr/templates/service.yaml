@@ -1,0 +1,26 @@
+{{- if .Values.service.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "homarr.fullname" . }}
+  labels:
+    {{- include "homarr.labels" . | nindent 4 }}
+  annotations:
+    {{- with ( .Values.service.annotations) }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- $type := default "ClusterIP" .Values.service.type }}
+  type: {{ $type }}
+  selector:
+    app.kubernetes.io/name: {{ include "homarr.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+  ports:
+    - protocol: TCP
+      port: {{ default 80 .Values.service.port }}
+      targetPort: http
+      {{- if and (eq (lower .Values.service.type) "nodeport") .Values.service.nodePort }}
+      nodePort: {{ .Values.service.nodePort }}
+      {{- end }}
+
+{{- end }}
