@@ -13,6 +13,39 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 0.13.4
+    created: "2023-10-06T17:59:52.22579302Z"
+    description: Homarr helm chart
+    digest: b56e9eb869936b24939a4ecf53baf769a8dc3578fd37e5c77467a94a47d430f3
+    home: https://github.com/deler-aziz/helm-charts
+    icon: https://raw.githubusercontent.com/walkxcode/dashboard-icons/main/png/homarr.png
+    keywords:
+    - homarr
+    - dashboard
+    kubeVersion: '>=1.19.0-0'
+    maintainers:
+    - email: info@deler.dev
+      name: deler-aziz
+      url: https://github.com/deler-aziz
+    name: homarr
+    sources:
+    - https://github.com/deler-aziz/helm-charts
+    - https://github.com/ajnart/homarr
+    type: application
+    urls:
+    - https://github.com/deler-aziz/helm-charts/releases/download/homarr-1.0.1/homarr-1.0.1.tgz
+    version: 1.0.1
+  - annotations:
+      artifacthub.io/license: MIT
+      artifacthub.io/links: |
+        - name: Documentation
+          url: https://homarr.dev/docs
+        - name: ajnart/homarr
+          url: https://github.com/ajnart/homarr
+        - name: Chart
+          url: https://github.com/deler-aziz/helm-charts
+      artifacthub.io/prerelease: "false"
+    apiVersion: v2
+    appVersion: 0.13.4
     created: "2023-10-06T00:06:04.724361588Z"
     description: Homarr helm chart
     digest: 5eeea551e5126d943ce4e3398a75122cf3b826f75a96dfd6b67040629a9717ec
@@ -34,4 +67,4 @@ entries:
     urls:
     - https://github.com/deler-aziz/helm-charts/releases/download/homarr-1.0.0/homarr-1.0.0.tgz
     version: 1.0.0
-generated: "2023-10-06T17:31:50.937851014Z"
+generated: "2023-10-06T17:59:52.22580082Z"
