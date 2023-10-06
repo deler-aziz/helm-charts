@@ -2,7 +2,7 @@
 
 # 🦞 Homarr
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.13.4](https://img.shields.io/badge/AppVersion-0.13.4-informational?style=flat-square)
+![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 0.13.4](https://img.shields.io/badge/AppVersion-0.13.4-informational?style=flat-square)
 
 ![Banner](https://github.com/ajnart/homarr/raw/dev/docs/banner.png)
 
@@ -54,7 +54,7 @@ helm install my-release deler/homarr
   |[ingress.host](./values.yaml#L93)| string |`"homarr.home.local"`| Ingress host. |
   |[ingress.path](./values.yaml#L95)| string |`"/"`| Ingress path. |
   |[ingress.pathType](./values.yaml#L97)| string |`"Prefix"`| Ingress path type. |
-  |[ingress.tls](./values.yaml#L99)| object |`{}`| Ingress tls config. |
+  |[ingress.tls](./values.yaml#L99)| list |`[]`| Ingress tls config. |
   |[securityContext](./values.yaml#L3)| object |See [values.yaml](https://github.com/deler-aziz/helm-charts/blob/main/charts/homarr/values.yaml#L3)| Pod Security Context. |
   |[service](./values.yaml#L71)| object |See [values.yaml](https://github.com/deler-aziz/helm-charts/blob/main/charts/homarr/values.yaml#L71)| Homarr service config. |
   |[service.annotations](./values.yaml#L75)| object |`{}`| Service annotations. |

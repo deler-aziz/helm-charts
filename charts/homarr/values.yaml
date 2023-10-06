@@ -96,5 +96,5 @@ ingress:
   # -- Ingress path type.
   pathType: Prefix
   # -- Ingress tls config.
-  tls: {}
+  tls: []
    

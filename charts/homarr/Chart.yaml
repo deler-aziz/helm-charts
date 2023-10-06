@@ -1,6 +1,6 @@
 apiVersion: v2
 name: homarr
-version: 1.0.0
+version: 1.0.1
 appVersion: "0.13.4"
 kubeVersion: ">=1.19.0-0"
 description: Homarr helm chart
