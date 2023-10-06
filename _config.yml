@@ -1,0 +1,17 @@
+title: Deler Helm Chart Repository
+description: Official Deler Helm Chart Repository.
+url: https://helm.deler.dev/
+remote_theme: sirius93/cayman-theme-custom
+author: Deler Aziz
+plugins:
+  - jekyll-seo-tag
+  - jekyll-remote-theme
+
+# sirius93/cayman-theme-custom configs
+darkmode: true
+hide_first_title: true
+color:
+  gradient_left: "#5E5368"
+  gradient_right: "#000000"
+  link: "#b7afbf"
+  section_title: "#ffffff"
