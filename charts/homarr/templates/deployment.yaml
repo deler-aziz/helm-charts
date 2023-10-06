@@ -8,13 +8,12 @@ kind: Deployment
 metadata:
   name: {{ include "homarr.fullname" . }}
   labels:
-    app.kubernetes.io/component	: homarr
     {{- include "homarr.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.homarr.replicas }}
   selector:
     matchLabels:
-      {{- include "homarr.labels" . | nindent 6 }}
+      {{- include "homarr.labelselector" . | nindent 6 }}
   template:
     metadata:
       labels:

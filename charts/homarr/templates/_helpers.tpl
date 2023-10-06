@@ -38,14 +38,22 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{/*
-Common labels.
+Instance label.
 */}}
-{{- define "homarr.labels" -}}
-app.kubernetes.io/name: {{ include "homarr.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-helm.sh/chart: {{ include "homarr.chart" . }}
+{{- define "homarr.instance-name" -}}
+{{- default (printf "%s-%s" .Release.Name .Release.Namespace) .Values.instanceLabelOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
+
+{{/* Shared labels used for selector*/}}
+{{/* This is an immutable field: this should not change between upgrade */}}
+{{- define "homarr.labelselector" -}}
+app.kubernetes.io/name: {{ template "homarr.name" . }}
+app.kubernetes.io/instance: {{ template "homarr.instance-name" . }}
+{{- end }}
+
+{{/* Shared labels used in metada */}}
+{{- define "homarr.labels" -}}
+{{ include "homarr.labelselector" . }}
+helm.sh/chart: {{ template "homarr.chart" . }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
